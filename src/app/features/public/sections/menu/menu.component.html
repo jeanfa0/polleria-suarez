@@ -1,0 +1,113 @@
+<section class="sec" id="menu" aria-label="Menú">
+  <div class="sec-inner">
+
+    <!-- Header -->
+    <div class="sec-hdr-row">
+      <div class="sec-hdr-text">
+        <span class="stag">Lo que ofrecemos</span>
+        <h2 class="stitle">Nuestro Menú</h2>
+        <p class="sec-subtitle">Preparado al momento con ingredientes frescos del día</p>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filters" role="group" aria-label="Filtrar por categoría">
+        @for (f of menuFilters; track f.val) {
+        <button class="fbtn" [class.on]="menuCat() === f.val" (click)="menuCat.set(f.val)"
+          [attr.aria-pressed]="menuCat() === f.val" [attr.aria-label]="'Filtrar: ' + f.label">
+          <span class="fbtn-icon" aria-hidden="true">{{ f.icon }}</span>
+          {{ f.label }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <!-- Contador de resultados -->
+    <div class="menu-meta" aria-live="polite">
+      <span class="menu-count">{{ filteredMenu().length }} productos</span>
+      <div class="menu-divider" aria-hidden="true"></div>
+      <span class="menu-hint">🔥 Los más pedidos marcados en rojo</span>
+    </div>
+
+    <!-- Grid de productos -->
+    <div class="mgrid" role="list">
+      @for (item of filteredMenu(); track item.id) {
+      <article class="mcard" role="listitem" [class.mcard--popular]="item.badge === 'Popular'">
+
+        <!-- Badge -->
+        @if (item.badge) {
+        <div class="mcard-badge" [attr.data-type]="item.badge.toLowerCase()">
+          {{ item.badge }}
+        </div>
+        }
+
+        <!-- Imagen real con fallback a emoji -->
+        <div class="mcard-visual" aria-hidden="true">
+          <div class="mcard-glow"></div>
+          @if (item.img) {
+          <img class="mcard-img" [src]="item.img" [alt]="item.nombre" loading="lazy"
+            (error)="onImgError($event, item.emoji)" />
+          } @else {
+          <span class="mcard-emo">{{ item.emoji }}</span>
+          }
+        </div>
+
+        <!-- Categoría -->
+        <div class="mcard-cat">
+          <span class="mcat-dot" aria-hidden="true"></span>
+          {{ item.cat }}
+        </div>
+
+        <!-- Info -->
+        <h3 class="mcard-title">{{ item.nombre }}</h3>
+        <p class="mcard-desc">{{ item.desc }}</p>
+
+        <!-- Ingredientes destacados (si existen) -->
+        @if (item.tags && item.tags.length) {
+        <div class="mcard-tags" aria-label="Incluye">
+          @for (tag of item.tags; track tag) {
+          <span class="mtag">{{ tag }}</span>
+          }
+        </div>
+        }
+
+        <!-- Footer: precio + botón -->
+        <div class="mcard-foot">
+          <div class="mprice">
+            <span class="mprice-val">S/ {{ item.precio }}</span>
+            @if (item.precioOld) {
+            <span class="mprice-old">S/ {{ item.precioOld }}</span>
+            }
+            @if (item.sub) {
+            <small class="mprice-sub">{{ item.sub }}</small>
+            }
+          </div>
+          <button class="abtn" (click)="showToast(item.nombre)"
+            [attr.aria-label]="'Agregar ' + item.nombre + ' al carrito'">
+            <span class="abtn-icon" aria-hidden="true">+</span>
+          </button>
+        </div>
+
+      </article>
+      }
+    </div>
+
+    <!-- Estado vacío -->
+    @if (filteredMenu().length === 0) {
+    <div class="menu-empty" role="status">
+      <span class="menu-empty-icon" aria-hidden="true">🍽️</span>
+      <p>No hay productos en esta categoría por el momento.</p>
+    </div>
+    }
+
+  </div>
+
+  <!-- Toast notificación -->
+  @if (cartToast()) {
+  <div class="cart-toast" role="status" aria-live="polite">
+    <span class="ct-icon" aria-hidden="true">🛒</span>
+    <span><strong>{{ cartToast() }}</strong> agregado al carrito</span>
+    <span class="ct-check" aria-hidden="true">✓</span>
+  </div>
+  }
+
+</section>

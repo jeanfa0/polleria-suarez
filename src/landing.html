@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pollos Suárez — El Sabor que Conquista Lima</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#D4AF37;--gold-light:#F0D060;--gold-dark:#A8892A;--black:#0A0A0A;--black2:#111111;--black3:#1A1A1A;--black4:#222222;--white:#FAFAF8;--gray:#888;--font-display:'Cormorant Garamond',serif;--font-body:'Outfit',sans-serif}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--black);color:var(--white);overflow-x:hidden}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px}
+*{cursor:none}
+.cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(212,175,55,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .15s ease,top .15s ease}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 60px;height:72px;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,175,55,.15)}
+.nav-logo{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--white)}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:13px;font-weight:500;color:rgba(255,255,255,.6);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-actions{display:flex;gap:12px;align-items:center}
+.btn-order{background:var(--gold);color:var(--black);padding:10px 24px;border-radius:2px;font-size:13px;font-weight:600;text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+.btn-order:hover{background:var(--gold-light)}
+.btn-login-nav{background:transparent;border:1px solid rgba(212,175,55,.4);color:var(--gold);padding:10px 20px;border-radius:2px;font-size:13px;font-weight:500;text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+.btn-login-nav:hover{border-color:var(--gold);background:rgba(212,175,55,.08)}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:140px 60px 80px;position:relative;z-index:2}
+.hero-right{position:relative;overflow:hidden}
+.hero-bg-text{position:absolute;font-family:var(--font-display);font-size:260px;font-weight:900;color:rgba(212,175,55,.03);line-height:1;top:50%;transform:translateY(-50%);right:-20px;white-space:nowrap;pointer-events:none;user-select:none}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.2);color:var(--gold);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:2px;margin-bottom:32px;width:fit-content}
+.hero-tag-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero h1{font-family:var(--font-display);font-size:clamp(52px,5.5vw,88px);font-weight:700;line-height:1.05;margin-bottom:24px}
+.hero h1 .l1{display:block;animation:sup .8s ease both}
+.hero h1 .l2{display:block;animation:sup .8s ease .1s both}
+.hero h1 .l3{display:block;color:var(--gold);animation:sup .8s ease .2s both}
+@keyframes sup{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.hero-desc{font-size:16px;color:rgba(255,255,255,.55);line-height:1.8;max-width:420px;margin-bottom:48px;animation:fin .8s ease .4s both}
+@keyframes fin{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;animation:fin .8s ease .5s both}
+.btn-p{background:var(--gold);color:var(--black);padding:16px 36px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .3s}
+.btn-p:hover{background:var(--gold-light)}
+.btn-s{background:transparent;color:var(--white);padding:16px 36px;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border:1px solid rgba(255,255,255,.2);border-radius:2px;transition:all .3s}
+.btn-s:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{display:flex;gap:48px;margin-top:64px;padding-top:48px;border-top:1px solid rgba(255,255,255,.08);animation:fin .8s ease .7s both}
+.sn{font-family:var(--font-display);font-size:40px;font-weight:700;color:var(--gold);display:block;line-height:1}
+.sl{font-size:12px;color:rgba(255,255,255,.4);margin-top:4px;letter-spacing:1px;text-transform:uppercase}
+.hero-visual{width:100%;height:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative}
+.hero-visual-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 60% 50%,rgba(212,175,55,.07) 0%,transparent 70%)}
+.plate-wrap{position:relative;width:420px;height:420px}
+.plate-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(212,175,55,.12);animation:spin 18s linear infinite}
+.plate-ring::before{content:'';position:absolute;top:-5px;left:50%;width:10px;height:10px;background:var(--gold);border-radius:50%;transform:translateX(-50%);box-shadow:0 0 12px var(--gold)}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.plate-inner{position:absolute;inset:50px;border-radius:50%;background:rgba(212,175,55,.04);border:1px solid rgba(212,175,55,.08);display:flex;align-items:center;justify-content:center;font-size:160px}
+.fbadge{position:absolute;background:var(--black3);border:1px solid rgba(212,175,55,.25);border-radius:4px;padding:12px 16px;animation:flt 3s ease-in-out infinite}
+.fbadge:nth-child(3){top:18%;right:2%;animation-delay:0s}
+.fbadge:nth-child(4){bottom:22%;left:2%;animation-delay:1.5s}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.fbadge-val{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold)}
+.fbadge-lab{font-size:11px;color:rgba(255,255,255,.5)}
+.marquee-bar{background:var(--gold);padding:14px 0;overflow:hidden}
+.marquee-track{display:flex;gap:60px;animation:mrq 22s linear infinite;white-space:nowrap}
+@keyframes mrq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mitem{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--black);letter-spacing:.5px;text-transform:uppercase;flex-shrink:0}
+.mdot{width:5px;height:5px;background:rgba(0,0,0,.3);border-radius:50%;flex-shrink:0}
+section.main{padding:120px 60px}
+.stag{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:14px}
+.stitle{font-family:var(--font-display);font-size:clamp(36px,4vw,60px);font-weight:700;line-height:1.1;margin-bottom:16px}
+.ssub{font-size:15px;color:rgba(255,255,255,.5);line-height:1.8;max-width:500px}
+#menu{background:var(--black2)}
+.menu-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;flex-wrap:wrap;gap:20px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.fbtn{padding:8px 20px;border:1px solid rgba(255,255,255,.1);border-radius:2px;background:transparent;color:rgba(255,255,255,.5);font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;font-family:var(--font-body);transition:all .2s}
+.fbtn.on,.fbtn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,.06)}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.mcard{background:var(--black3);padding:36px;position:relative;overflow:hidden;transition:background .3s}
+.mcard::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,175,55,.07),transparent 60%);opacity:0;transition:opacity .3s}
+.mcard:hover{background:var(--black4)}
+.mcard:hover::after{opacity:1}
+.mcard-badge{position:absolute;top:20px;right:20px;background:var(--gold);color:var(--black);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:2px}
+.mcard-emo{font-size:52px;display:block;margin-bottom:18px;transition:transform .3s}
+.mcard:hover .mcard-emo{transform:scale(1.1)}
+.mcard-cat{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.mcard h3{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px}
+.mcard p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.7;margin-bottom:20px}
+.mcard-foot{display:flex;align-items:center;justify-content:space-between}
+.mprice{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--gold)}
+.mprice small{font-size:13px;font-weight:400;color:rgba(255,255,255,.3);font-family:var(--font-body)}
+.abtn{width:40px;height:40px;border:1px solid rgba(212,175,55,.3);border-radius:2px;background:transparent;color:var(--gold);font-size:22px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.abtn:hover{background:var(--gold);color:var(--black)}
+.gdivider{height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,.3),transparent)}
+#promociones{background:var(--black)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:56px}
+.pcard{position:relative;overflow:hidden;padding:48px 40px;min-height:280px;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .3s}
+.pcard:hover{transform:scale(1.01)}
+.pcard:first-child{grid-row:span 2;min-height:auto}
+.pcard-glow{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:220px;opacity:.05;pointer-events:none}
+.pcard-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 100%)}
+.pcard-inner{position:relative;z-index:2}
+.ptag{display:inline-block;background:var(--gold);color:var(--black);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:2px;margin-bottom:10px}
+.pcard h3{font-family:var(--font-display);font-size:30px;font-weight:700;color:var(--white);margin-bottom:8px}
+.pcard p{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:16px}
+.ppwrap{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.pp{font-family:var(--font-display);font-size:40px;font-weight:700;color:var(--gold)}
+.ppold{font-size:18px;color:rgba(255,255,255,.3);text-decoration:line-through}
+.pbtn{display:inline-flex;align-items:center;gap:8px;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.3);color:var(--gold);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:10px 20px;border-radius:2px;text-decoration:none;transition:all .3s}
+.pbtn:hover{background:var(--gold);color:var(--black)}
+.pbg1{background:linear-gradient(135deg,#180800,#281400)}
+.pbg2{background:linear-gradient(135deg,#080818,#080818)}
+.pbg3{background:linear-gradient(135deg,#180018,#0a0a00)}
+#app-sec{background:var(--black2)}
+.app-wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.app-feats{display:flex;flex-direction:column;gap:28px;margin-top:44px}
+.app-feat{display:flex;gap:18px;align-items:flex-start}
+.af-icon{width:46px;height:46px;border:1px solid rgba(212,175,55,.2);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:rgba(212,175,55,.04)}
+.af-icon-txt{font-size:20px}
+.app-feat h4{font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px}
+.app-feat p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6}
+.phone-mock{position:relative;display:flex;justify-content:center}
+.pframe{width:270px;background:var(--black3);border:1px solid rgba(212,175,55,.2);border-radius:38px;padding:10px;box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.pnotch{width:72px;height:22px;background:var(--black);border-radius:11px;margin:0 auto 14px}
+.pscreen{background:var(--black4);border-radius:26px;overflow:hidden}
+.ph-hdr{background:var(--black3);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(212,175,55,.08)}
+.ph-logo{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--white)}
+.ph-logo span{color:var(--gold)}
+.ph-cart{width:30px;height:30px;background:rgba(212,175,55,.1);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.ph-hero{padding:18px;background:linear-gradient(135deg,rgba(212,175,55,.07),transparent)}
+.ph-otag{background:var(--gold);color:var(--black);font-size:9px;font-weight:700;letter-spacing:1px;padding:3px 8px;border-radius:2px;display:inline-block;margin-bottom:6px}
+.ph-otitle{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--white);margin-bottom:3px}
+.ph-oprice{font-size:12px;color:var(--gold)}
+.ph-cats{display:flex;gap:6px;padding:10px 18px;overflow-x:auto}
+.ph-cat{padding:5px 12px;background:rgba(212,175,55,.07);border:1px solid rgba(212,175,55,.14);border-radius:20px;font-size:10px;font-weight:600;color:var(--gold);white-space:nowrap}
+.ph-cat.on{background:var(--gold);color:var(--black)}
+.ph-items{padding:8px 18px 18px;display:flex;flex-direction:column;gap:7px}
+.ph-item{display:flex;align-items:center;gap:10px;padding:10px;background:rgba(255,255,255,.03);border-radius:8px;border:1px solid rgba(255,255,255,.04)}
+.ph-emo{font-size:24px;flex-shrink:0}
+.ph-info{flex:1}
+.ph-name{font-size:11px;font-weight:600;color:var(--white)}
+.ph-price{font-size:10px;color:var(--gold)}
+.ph-add{width:24px;height:24px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--black)}
+#nosotros{background:var(--black)}
+.about-wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-visual{position:relative}
+.about-bignum{font-family:var(--font-display);font-size:180px;font-weight:900;color:rgba(212,175,55,.05);position:absolute;top:-30px;left:-10px;line-height:1;user-select:none;pointer-events:none}
+.about-main-card{background:var(--black3);border:1px solid rgba(212,175,55,.15);border-radius:4px;padding:44px;position:relative;z-index:2}
+.about-main-card .icon{font-size:60px;display:block;margin-bottom:20px}
+.about-main-card h3{font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--gold);margin-bottom:10px}
+.about-main-card p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.8}
+.about-badge{position:absolute;bottom:-20px;right:-20px;width:88px;height:88px;background:var(--gold);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.about-badge strong{font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--black);line-height:1}
+.about-badge small{font-size:9px;font-weight:700;color:var(--black);text-transform:uppercase;letter-spacing:.5px}
+.about-text p{font-size:15px;color:rgba(255,255,255,.55);line-height:1.9;margin-bottom:14px}
+.avals{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:28px 0}
+.aval{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.7);font-weight:500}
+.aval::before{content:'';width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0}
+.tline{display:flex;flex-direction:column;gap:0;margin-top:32px}
+.titem{display:flex;gap:18px;padding-bottom:24px;position:relative}
+.titem:not(:last-child)::before{content:'';position:absolute;left:18px;top:38px;bottom:0;width:1px;background:rgba(212,175,55,.12)}
+.tdot{width:38px;height:38px;border:1px solid rgba(212,175,55,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--black3)}
+.tdot span{font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--gold)}
+.tcontent h4{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px}
+.tcontent p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6}
+#contacto{background:var(--black2)}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:56px}
+.cinfo{display:flex;flex-direction:column;gap:24px}
+.citem{display:flex;gap:14px;align-items:flex-start}
+.cicon{width:42px;height:42px;border:1px solid rgba(212,175,55,.18);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:rgba(212,175,55,.04)}
+.citem h4{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.citem p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.6}
+.cform{background:var(--black3);border:1px solid rgba(212,175,55,.12);border-radius:4px;padding:40px}
+.cform h3{font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--white);margin-bottom:26px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.fg label{font-size:11px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase}
+.fg input,.fg textarea,.fg select{padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:2px;color:var(--white);font-size:14px;font-family:var(--font-body);outline:none;transition:border-color .2s}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--gold)}
+.fg textarea{height:110px;resize:vertical}
+.fg select option{background:var(--black3)}
+.csend{width:100%;padding:13px;background:var(--gold);color:var(--black);border:none;border-radius:2px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;font-family:var(--font-body);transition:background .2s}
+.csend:hover{background:var(--gold-light)}
+footer{background:var(--black);border-top:1px solid rgba(212,175,55,.1);padding:60px}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;margin-bottom:44px}
+.fbrand .flogo{font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--white);margin-bottom:10px}
+.fbrand .flogo span{color:var(--gold)}
+.fbrand p{font-size:13px;color:rgba(255,255,255,.32);line-height:1.8;max-width:260px;margin-bottom:22px}
+.fsocial{display:flex;gap:8px}
+.fsoc{width:34px;height:34px;border:1px solid rgba(255,255,255,.1);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:15px;color:rgba(255,255,255,.35);text-decoration:none;transition:all .2s}
+.fsoc:hover{border-color:var(--gold);color:var(--gold)}
+.fcol h4{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:18px}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.fcol li a{font-size:13px;color:rgba(255,255,255,.38);text-decoration:none;transition:color .2s}
+.fcol li a:hover{color:var(--gold)}
+.fbot{display:flex;justify-content:space-between;align-items:center;padding-top:28px;border-top:1px solid rgba(255,255,255,.06);flex-wrap:wrap;gap:12px}
+.fcopy{font-size:12px;color:rgba(255,255,255,.22)}
+.fleg{display:flex;gap:22px}
+.fleg a{font-size:12px;color:rgba(255,255,255,.22);text-decoration:none;transition:color .2s}
+.fleg a:hover{color:var(--gold)}
+.wa{position:fixed;bottom:32px;right:32px;z-index:150;width:54px;height:54px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;text-decoration:none;animation:wap 2s infinite}
+@keyframes wap{0%{box-shadow:0 0 0 0 rgba(37,211,102,.4)}70%{box-shadow:0 0 0 14px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.loverlay{position:fixed;inset:0;background:rgba(0,0,0,.87);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.loverlay.open{opacity:1;pointer-events:all}
+.lmodal{background:var(--black3);border:1px solid rgba(212,175,55,.2);border-radius:4px;padding:48px;width:100%;max-width:420px;position:relative}
+.lclose{position:absolute;top:18px;right:18px;width:30px;height:30px;border:1px solid rgba(255,255,255,.1);border-radius:2px;background:transparent;color:rgba(255,255,255,.4);font-size:16px;display:flex;align-items:center;justify-content:center}
+.lbrand{text-align:center;margin-bottom:32px}
+.lbrand .lic{font-size:44px;display:block;margin-bottom:10px}
+.lbrand h2{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--white)}
+.lbrand h2 span{color:var(--gold)}
+.lbrand p{font-size:13px;color:rgba(255,255,255,.38);margin-top:3px}
+.lerr{background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.25);color:#f87171;padding:9px 14px;border-radius:2px;font-size:13px;margin-bottom:12px;display:none}
+.lerr.show{display:block}
+.lf{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.lf label{font-size:11px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase}
+.lf input{padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:2px;color:var(--white);font-size:14px;font-family:var(--font-body);outline:none;transition:border-color .2s}
+.lf input:focus{border-color:var(--gold)}
+.lsubmit{width:100%;padding:13px;background:var(--gold);color:var(--black);border:none;border-radius:2px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;font-family:var(--font-body);margin-top:6px;transition:background .2s}
+.lsubmit:hover{background:var(--gold-light)}
+.lsubmit:disabled{opacity:.6}
+.lquick{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.06)}
+.lquick p{font-size:11px;color:rgba(255,255,255,.28);text-align:center;margin-bottom:9px;letter-spacing:.5px;text-transform:uppercase}
+.lqbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.lqb{padding:8px 4px;border:1px solid rgba(212,175,55,.14);border-radius:2px;background:transparent;color:rgba(255,255,255,.45);font-size:11px;font-weight:600;text-align:center;transition:all .15s;font-family:var(--font-body)}
+.lqb:hover{border-color:var(--gold);color:var(--gold)}
+@media(max-width:900px){
+  nav{padding:0 20px}.nav-links{display:none}
+  .hero{grid-template-columns:1fr}.hero-right{display:none}.hero-left{padding:120px 20px 60px}
+  section.main{padding:72px 20px}
+  .mgrid{grid-template-columns:1fr 1fr}
+  .pgrid,.app-wrap,.about-wrap,.cgrid,.fgrid{grid-template-columns:1fr;gap:36px}
+  .pcard:first-child{grid-row:span 1}
+  footer{padding:40px 20px}.frow{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav id="nav">
+  <div class="nav-logo">Pollos <span>Suárez</span></div>
+  <ul class="nav-links">
+    <li><a href="#menu">Menú</a></li>
+    <li><a href="#promociones">Promociones</a></li>
+    <li><a href="#app-sec">App</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#menu" class="btn-order">Pedir ahora</a>
+    <a href="#" class="btn-login-nav" id="openLogin">Iniciar sesión</a>
+  </div>
+</nav>
+
+<section class="hero" id="inicio">
+  <div class="hero-left">
+    <div class="hero-tag"><div class="hero-tag-dot"></div>Abierto todos los días · 11am – 10pm</div>
+    <h1><span class="l1">El Sabor</span><span class="l2">que Conquista</span><span class="l3">Lima</span></h1>
+    <p class="hero-desc">Pollo a la brasa con 10 años de tradición. Marinado 24 horas en especias andinas, cocción en brasa de leña y atención que no olvidarás.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-p">Ordenar ahora</a>
+      <a href="#nosotros" class="btn-s">Nuestra historia</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="sn">200+</span><span class="sl">Pedidos diarios</span></div>
+      <div class="stat"><span class="sn">10</span><span class="sl">Años de sabor</span></div>
+      <div class="stat"><span class="sn">4.9★</span><span class="sl">Calificación</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-text">BRASA</div>
+    <div class="hero-visual">
+      <div class="hero-visual-glow"></div>
+      <div class="plate-wrap">
+        <div class="plate-ring"></div>
+        <div class="plate-inner">🍗</div>
+        <div class="fbadge"><div class="fbadge-val">S/ 45</div><div class="fbadge-lab">Pollo entero</div></div>
+        <div class="fbadge"><div class="fbadge-val">45 min</div><div class="fbadge-lab">Delivery rápido</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <div class="mitem">🔥 Oferta del día: 1/2 pollo + papas S/ 22</div><div class="mdot"></div>
+    <div class="mitem">🛵 Delivery gratis en pedidos mayores a S/ 60</div><div class="mdot"></div>
+    <div class="mitem">🎉 Combo familiar: pollo entero + 2 papas + 4 bebidas S/ 65</div><div class="mdot"></div>
+    <div class="mitem">📱 Paga con Yape o Plin y obtén 10% de descuento</div><div class="mdot"></div>
+    <div class="mitem">🔥 Oferta del día: 1/2 pollo + papas S/ 22</div><div class="mdot"></div>
+    <div class="mitem">🛵 Delivery gratis en pedidos mayores a S/ 60</div><div class="mdot"></div>
+    <div class="mitem">🎉 Combo familiar: pollo entero + 2 papas + 4 bebidas S/ 65</div><div class="mdot"></div>
+    <div class="mitem">📱 Paga con Yape o Plin y obtén 10% de descuento</div><div class="mdot"></div>
+  </div>
+</div>
+
+<section class="main" id="menu">
+  <div class="menu-hdr">
+    <div><span class="stag">Lo que ofrecemos</span><h2 class="stitle">Nuestro Menú</h2></div>
+    <div class="filters">
+      <button class="fbtn on" data-cat="all">Todo</button>
+      <button class="fbtn" data-cat="pollo">Pollos</button>
+      <button class="fbtn" data-cat="acomp">Acompañam.</button>
+      <button class="fbtn" data-cat="bebida">Bebidas</button>
+    </div>
+  </div>
+  <div class="mgrid" id="mgrid">
+    <div class="mcard" data-cat="pollo"><div class="mcard-badge">Popular</div><span class="mcard-emo">🍗</span><div class="mcard-cat">Pollo a la Brasa</div><h3>Pollo Entero</h3><p>Marinado 24h en especias andinas, dorado perfecto en brasa de leña. El clásico irresistible.</p><div class="mcard-foot"><div class="mprice">S/ 45 <small>+ acompañ.</small></div><button class="abtn" onclick="notify('Pollo entero')">+</button></div></div>
+    <div class="mcard" data-cat="pollo"><span class="mcard-emo">🍗</span><div class="mcard-cat">Pollo a la Brasa</div><h3>1/2 Pollo</h3><p>Media presa jugosa, ideal para uno. Con papas doradas y crema de ají de la casa.</p><div class="mcard-foot"><div class="mprice">S/ 25 <small>+ acompañ.</small></div><button class="abtn" onclick="notify('1/2 Pollo')">+</button></div></div>
+    <div class="mcard" data-cat="pollo"><span class="mcard-emo">🍗</span><div class="mcard-cat">Pollo a la Brasa</div><h3>1/4 Pollo</h3><p>La opción personal perfecta. Cuarto de pollo con el sabor característico de Suárez.</p><div class="mcard-foot"><div class="mprice">S/ 14 <small>+ acompañ.</small></div><button class="abtn" onclick="notify('1/4 Pollo')">+</button></div></div>
+    <div class="mcard" data-cat="acomp"><span class="mcard-emo">🍟</span><div class="mcard-cat">Acompañamiento</div><h3>Papas Fritas</h3><p>Peladas y fritas al momento en aceite de girasol. Doradas por fuera, suaves por dentro.</p><div class="mcard-foot"><div class="mprice">S/ 8</div><button class="abtn" onclick="notify('Papas fritas')">+</button></div></div>
+    <div class="mcard" data-cat="acomp"><span class="mcard-emo">🥗</span><div class="mcard-cat">Acompañamiento</div><h3>Ensalada Fresca</h3><p>Mezcla de lechugas, tomate cherry y zanahoria con aderezo especial de la casa.</p><div class="mcard-foot"><div class="mprice">S/ 6</div><button class="abtn" onclick="notify('Ensalada')">+</button></div></div>
+    <div class="mcard" data-cat="bebida"><div class="mcard-badge">Variedad</div><span class="mcard-emo">🥤</span><div class="mcard-cat">Bebidas</div><h3>Bebidas</h3><p>Inca Kola, Coca-Cola, chicha morada artesanal, agua mineral y jugos naturales frescos.</p><div class="mcard-foot"><div class="mprice">S/ 3 <small>— S/ 8</small></div><button class="abtn" onclick="notify('Bebida')">+</button></div></div>
+  </div>
+</section>
+
+<div class="gdivider"></div>
+
+<section class="main" id="promociones">
+  <span class="stag">Ofertas especiales</span>
+  <h2 class="stitle">Promociones</h2>
+  <div class="pgrid">
+    <div class="pcard pbg1"><div class="pcard-glow">🍗</div><div class="pcard-ov"></div><div class="pcard-inner"><span class="ptag">Oferta del día</span><h3>Combo Familiar Suárez</h3><p>Pollo entero + 2 papas grandes + 4 gaseosas + salsas</p><div class="ppwrap"><span class="pp">S/ 65</span><span class="ppold">S/ 82</span></div><a href="#" class="pbtn">Pedir ahora →</a></div></div>
+    <div class="pcard pbg2"><div class="pcard-glow">🍟</div><div class="pcard-ov"></div><div class="pcard-inner"><span class="ptag">Almuerzo ejecutivo</span><h3>Combo Ejecutivo</h3><p>1/4 pollo + papas + gaseosa personal</p><div class="ppwrap"><span class="pp">S/ 22</span><span class="ppold">S/ 27</span></div><a href="#" class="pbtn">Pedir ahora →</a></div></div>
+    <div class="pcard pbg3"><div class="pcard-glow">🥤</div><div class="pcard-ov"></div><div class="pcard-inner"><span class="ptag">Fines de semana</span><h3>Combo Pareja</h3><p>1/2 pollo + papas + 2 gaseosas + cremas</p><div class="ppwrap"><span class="pp">S/ 38</span><span class="ppold">S/ 46</span></div><a href="#" class="pbtn">Pedir ahora →</a></div></div>
+  </div>
+</section>
+
+<section class="main" id="app-sec">
+  <div class="app-wrap">
+    <div>
+      <span class="stag">Descarga nuestra app</span>
+      <h2 class="stitle">Pide desde donde estés</h2>
+      <p class="ssub">Ordena, paga y rastrea tu pedido en tiempo real. Disponible para delivery y recojo en tienda.</p>
+      <div class="app-feats">
+        <div class="app-feat"><div class="af-icon"><span class="af-icon-txt">🛵</span></div><div><h4>Delivery en 45 minutos</h4><p>Rastreo en tiempo real desde que sale de cocina hasta tu puerta.</p></div></div>
+        <div class="app-feat"><div class="af-icon"><span class="af-icon-txt">💳</span></div><div><h4>Pago fácil y seguro</h4><p>Yape, Plin, tarjeta de crédito/débito o efectivo al entregar.</p></div></div>
+        <div class="app-feat"><div class="af-icon"><span class="af-icon-txt">🎁</span></div><div><h4>Ofertas exclusivas</h4><p>Promociones y descuentos solo disponibles en la app.</p></div></div>
+      </div>
+    </div>
+    <div class="phone-mock">
+      <div class="pframe">
+        <div class="pnotch"></div>
+        <div class="pscreen">
+          <div class="ph-hdr"><div class="ph-logo">Pollos <span>Suárez</span></div><div class="ph-cart">🛒</div></div>
+          <div class="ph-hero"><span class="ph-otag">Oferta del día</span><div class="ph-otitle">Combo Familiar</div><div class="ph-oprice">S/ 65 — ahorra S/ 17</div></div>
+          <div class="ph-cats"><div class="ph-cat on">Pollos</div><div class="ph-cat">Acompañ.</div><div class="ph-cat">Bebidas</div></div>
+          <div class="ph-items">
+            <div class="ph-item"><div class="ph-emo">🍗</div><div class="ph-info"><div class="ph-name">Pollo Entero</div><div class="ph-price">S/ 45</div></div><div class="ph-add">+</div></div>
+            <div class="ph-item"><div class="ph-emo">🍗</div><div class="ph-info"><div class="ph-name">1/2 Pollo</div><div class="ph-price">S/ 25</div></div><div class="ph-add">+</div></div>
+            <div class="ph-item"><div class="ph-emo">🍗</div><div class="ph-info"><div class="ph-name">1/4 Pollo</div><div class="ph-price">S/ 14</div></div><div class="ph-add">+</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gdivider"></div>
+
+<section class="main" id="nosotros">
+  <div class="about-wrap">
+    <div class="about-visual">
+      <div class="about-bignum">10</div>
+      <div class="about-main-card">
+        <span class="icon">🍗</span>
+        <h3>Nuestra receta secreta</h3>
+        <p>Marinado especial de 24 horas con hierbas andinas, ajo negro, comino tostado y ají panca. Una tradición familiar que llevamos a cada mesa desde 2014.</p>
+        <div class="about-badge"><strong>10</strong><small>años</small></div>
+      </div>
+    </div>
+    <div class="about-text">
+      <span class="stag">Nuestra historia</span>
+      <h2 class="stitle">Tradición y sabor desde el corazón de Lima</h2>
+      <p>Somos una empresa familiar fundada en 2014 en Lima, Perú. Lo que empezó como un sueño familiar hoy atiende más de 200 pedidos diarios.</p>
+      <p>Cada pollo que sale de nuestras brasas lleva consigo años de perfeccionamiento de una receta que nos distingue en Lima.</p>
+      <div class="avals">
+        <div class="aval">Ingredientes frescos diarios</div><div class="aval">Brasa natural de leña</div>
+        <div class="aval">Receta familiar secreta</div><div class="aval">Delivery puntual</div>
+        <div class="aval">Personal capacitado</div><div class="aval">Higiene certificada</div>
+      </div>
+      <div class="tline">
+        <div class="titem"><div class="tdot"><span>2014</span></div><div class="tcontent"><h4>Fundación</h4><p>Abrimos nuestras puertas en La Molina con una sola brasería.</p></div></div>
+        <div class="titem"><div class="tdot"><span>2018</span></div><div class="tcontent"><h4>Expansión delivery</h4><p>Lanzamos nuestro servicio de delivery alcanzando todo Lima.</p></div></div>
+        <div class="titem"><div class="tdot"><span>2024</span></div><div class="tcontent"><h4>Digitalización</h4><p>Lanzamos nuestra app y sistema de gestión digital completo.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="main" id="contacto">
+  <span class="stag">Encuéntranos</span>
+  <h2 class="stitle">Visítanos o Escríbenos</h2>
+  <div class="cgrid">
+    <div class="cinfo">
+      <div class="citem"><div class="cicon">📍</div><div><h4>Dirección</h4><p>Av. La Molina 1247, La Molina<br/>Lima, Perú</p></div></div>
+      <div class="citem"><div class="cicon">🕐</div><div><h4>Horario</h4><p>Lunes a Domingo<br/>11:00 am — 10:00 pm</p></div></div>
+      <div class="citem"><div class="cicon">📞</div><div><h4>Teléfono y WhatsApp</h4><p>+51 999 000 000</p></div></div>
+      <div class="citem"><div class="cicon">📧</div><div><h4>Correo</h4><p>pedidos@pollossuarez.pe</p></div></div>
+    </div>
+    <div class="cform">
+      <h3>Envíanos un mensaje</h3>
+      <div class="frow">
+        <div class="fg"><label>Nombre</label><input type="text" placeholder="Tu nombre"/></div>
+        <div class="fg"><label>Correo</label><input type="email" placeholder="tu@correo.com"/></div>
+      </div>
+      <div class="fg"><label>Asunto</label><select><option>Consulta general</option><option>Reserva para grupo</option><option>Pedido especial</option><option>Reclamo o sugerencia</option></select></div>
+      <div class="fg"><label>Mensaje</label><textarea placeholder="¿En qué podemos ayudarte?"></textarea></div>
+      <button class="csend" onclick="this.textContent='✓ Mensaje enviado!';this.style.background='#16a34a';setTimeout(()=>{this.textContent='Enviar mensaje';this.style.background=''},3000)">Enviar mensaje</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fgrid">
+    <div class="fbrand"><div class="flogo">Pollos <span>Suárez</span></div><p>El auténtico sabor a brasa de Lima desde 2014. Calidad, tradición y el mejor pollo de la ciudad.</p><div class="fsocial"><a href="#" class="fsoc">f</a><a href="#" class="fsoc">ig</a><a href="#" class="fsoc">tw</a><a href="#" class="fsoc">yt</a></div></div>
+    <div class="fcol"><h4>Menú</h4><ul><li><a href="#">Pollos</a></li><li><a href="#">Combos</a></li><li><a href="#">Acompañamientos</a></li><li><a href="#">Bebidas</a></li></ul></div>
+    <div class="fcol"><h4>Empresa</h4><ul><li><a href="#nosotros">Nosotros</a></li><li><a href="#">Trabaja con nosotros</a></li><li><a href="#">Franquicias</a></li></ul></div>
+    <div class="fcol"><h4>Contacto</h4><ul><li><a href="#">WhatsApp</a></li><li><a href="#">Rappi</a></li><li><a href="#">PedidosYa</a></li><li><a href="#contacto">Mensaje</a></li></ul></div>
+  </div>
+  <div class="fbot"><div class="fcopy">© 2024 Pollos a la Brasa Suárez. Lima, Perú.</div><div class="fleg"><a href="#">Privacidad</a><a href="#">Términos</a></div></div>
+</footer>
+
+<a href="https://wa.me/51999000000" class="wa">💬</a>
+
+<div class="loverlay" id="lovl">
+  <div class="lmodal">
+    <button class="lclose" onclick="document.getElementById('lovl').classList.remove('open')">✕</button>
+    <div class="lbrand"><span class="lic">🍗</span><h2>Pollos <span>Suárez</span></h2><p>Acceso al sistema interno</p></div>
+    <div class="lerr" id="lerr"></div>
+    <div class="lf"><label>Correo</label><input type="email" id="lemail" placeholder="usuario@suarez.pe"/></div>
+    <div class="lf"><label>Contraseña</label><input type="password" id="lpass" placeholder="••••••••"/></div>
+    <button class="lsubmit" id="lbtn" onclick="doLogin()">Ingresar al sistema</button>
+    <div class="lquick">
+      <p>Acceso rápido de prueba</p>
+      <div class="lqbtns">
+        <button class="lqb" onclick="qf('admin@suarez.pe')">👑 Admin</button>
+        <button class="lqb" onclick="qf('cajero@suarez.pe')">💰 Cajero</button>
+        <button class="lqb" onclick="qf('empleado@suarez.pe')">📋 Empleado</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+import{getAuth,signInWithEmailAndPassword}from'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import{getFirestore,doc,getDoc}from'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+const app=initializeApp({apiKey:"AIzaSyAZJgn6o1xqYerRHpi-WxW55YGki57d3vM",authDomain:"polleria-suarez.firebaseapp.com",projectId:"polleria-suarez",storageBucket:"polleria-suarez.firebasestorage.app",messagingSenderId:"390213287057",appId:"1:390213287057:web:c335dca9e905ed7eea5330"});
+const auth=getAuth(app),db=getFirestore(app);
+window.doLogin=async function(){
+  const e=document.getElementById('lemail').value,p=document.getElementById('lpass').value,btn=document.getElementById('lbtn'),err=document.getElementById('lerr');
+  if(!e||!p){err.textContent='Completa todos los campos.';err.classList.add('show');return;}
+  btn.textContent='Verificando...';btn.disabled=true;err.classList.remove('show');
+  try{
+    const c=await signInWithEmailAndPassword(auth,e,p);
+    const s=await getDoc(doc(db,'usuarios',c.user.uid));
+    if(!s.exists())throw new Error('Usuario no registrado.');
+    const r=s.data().rol;
+    window.location.href={admin:'/admin/dashboard',cajero:'/cajero/cobros',empleado:'/empleado/pedido'}[r]||'/';
+  }catch(x){err.textContent=x.message||'Error al iniciar sesión.';err.classList.add('show');btn.textContent='Ingresar al sistema';btn.disabled=false;}
+};
+</script>
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px'},80);});
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50));
+document.getElementById('openLogin').addEventListener('click',e=>{e.preventDefault();document.getElementById('lovl').classList.add('open');});
+window.qf=e=>{document.getElementById('lemail').value=e;document.getElementById('lpass').value='Suarez2024!';};
+document.querySelectorAll('.fbtn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  const c=b.dataset.cat;
+  document.querySelectorAll('.mcard').forEach(m=>m.style.display=(c==='all'||m.dataset.cat===c)?'block':'none');
+}));
+window.notify=n=>{const d=document.createElement('div');d.style.cssText='position:fixed;bottom:100px;right:32px;background:#D4AF37;color:#000;padding:12px 20px;border-radius:2px;font-size:13px;font-weight:600;z-index:500;letter-spacing:.5px';d.textContent='+ '+n+' agregado';document.body.appendChild(d);setTimeout(()=>d.remove(),2000);};
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}}),{threshold:.08});
+document.querySelectorAll('.mcard,.pcard,.app-feat,.citem,.titem').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(28px)';el.style.transition='opacity .6s ease,transform .6s ease';obs.observe(el);});
+</script>
+</body>
+</html>

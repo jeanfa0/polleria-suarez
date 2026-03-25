@@ -1,0 +1,135 @@
+<div class="page">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="reset-btn" (click)="resetForm()" title="Nuevo pedido">↺</button>
+    <span class="topbar-title">Nuevo pedido</span>
+    <span class="topbar-num">#{{ padNum(proximoNum()) }}</span>
+  </header>
+
+  <!-- ── TIPO DE ATENCIÓN ── -->
+  <div class="section">
+    <p class="section-label">Tipo de atención</p>
+    <div class="tipo-row">
+      @for (t of tipos; track t.val) {
+        <button class="tipo-btn" [class.active]="tipo()===t.val" (click)="setTipo(t.val)">
+          <span class="tipo-icon">{{ t.icon }}</span>
+          <span>{{ t.label }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- ── MESA (solo local) ── -->
+  @if (tipo() === 'local') {
+    <div class="section">
+      <p class="section-label">
+        Selecciona mesa
+        @if (mesa()) { <span class="mesa-sel">Mesa {{ mesa() }} seleccionada ✓</span> }
+      </p>
+      <div class="mesas-grid">
+        @for (m of mesas; track m) {
+          <button class="mesa-btn"
+            [class.sel]="mesa()===m"
+            [class.ocu]="esMesaOcupada(m)"
+            [disabled]="esMesaOcupada(m)"
+            (click)="mesa.set(m)">
+            {{ m }}
+            @if (esMesaOcupada(m)) { <span class="ocu-dot">●</span> }
+          </button>
+        }
+      </div>
+      <div class="leyenda">
+        <span class="leg-item"><span class="leg-dot libre"></span> Libre</span>
+        <span class="leg-item"><span class="leg-dot ocupada"></span> Ocupada</span>
+      </div>
+    </div>
+  }
+
+  <!-- ── DATOS DELIVERY ── -->
+  @if (tipo() === 'delivery') {
+    <div class="section">
+      <p class="section-label">Datos del cliente</p>
+      <div class="fields">
+        <input class="inp" [(ngModel)]="cliente"   placeholder="Nombre completo *" />
+        <input class="inp" [(ngModel)]="telefono"  placeholder="Teléfono" type="tel" />
+        <input class="inp" [(ngModel)]="direccion" placeholder="Dirección de entrega *" />
+      </div>
+    </div>
+  }
+
+  <!-- ── PRODUCTOS ── -->
+  <div class="section">
+    <p class="section-label">Productos</p>
+    <div class="cats">
+      @for (c of categorias; track c.val) {
+        <button class="cat-btn" [class.active]="cat()===c.val" (click)="cat.set(c.val)">
+          {{ c.icon }} {{ c.label }}
+        </button>
+      }
+    </div>
+    <div class="prods-grid">
+      @for (p of filtrados(); track p.id) {
+        <div class="prod-card" [class.sel]="qty(p.id!)>0" [class.dis]="!p.disponible">
+          <div class="prod-emoji">{{ p.emoji }}</div>
+          <div class="prod-nombre">{{ p.nombre }}</div>
+          <div class="prod-precio">S/ {{ p.precio }}</div>
+          @if (p.disponible) {
+            <div class="qty-ctrl">
+              <button class="qty-btn" (click)="dec(p)">−</button>
+              <span class="qty-val" [class.has]="qty(p.id!)>0">{{ qty(p.id!) }}</span>
+              <button class="qty-btn add" (click)="inc(p)">+</button>
+            </div>
+          } @else {
+            <span class="sin-stock">Sin stock</span>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- ── RESUMEN ── -->
+  @if (items().length > 0) {
+    <div class="section resumen">
+      <p class="section-label">Resumen del pedido</p>
+      @for (i of items(); track i.productoId) {
+        <div class="res-row">
+          <span>{{ i.cantidad }}× {{ i.nombre }}</span>
+          <span>S/ {{ i.subtotal }}</span>
+        </div>
+      }
+      <div class="res-total">
+        <span>Total</span>
+        <span class="total-val">S/ {{ total() }}</span>
+      </div>
+    </div>
+  }
+
+  <!-- ── NOTAS ── -->
+  <div class="section">
+    <p class="section-label">Notas (opcional)</p>
+    <textarea class="textarea" [(ngModel)]="notas" placeholder="Ej: Sin cebolla, extra salsa..." rows="2"></textarea>
+  </div>
+
+  <!-- ── ERROR ── -->
+  @if (err()) {
+    <div class="err-banner">⚠ {{ err() }}</div>
+  }
+
+  <!-- ── BOTÓN CONFIRMAR ── -->
+  <button class="btn-confirm"
+    [disabled]="!puedeConfirmar() || loading()"
+    (click)="confirmar()">
+    @if (loading()) {
+      <span class="spinner">⏳</span> Registrando en Firebase...
+    } @else {
+      Confirmar pedido — S/ {{ total() }}
+    }
+  </button>
+
+  <!-- ── TOAST ÉXITO ── -->
+  @if (toast()) {
+    <div class="toast">✓ Pedido registrado correctamente</div>
+  }
+
+</div>

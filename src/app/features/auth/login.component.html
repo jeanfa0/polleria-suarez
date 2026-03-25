@@ -1,0 +1,63 @@
+<div class="login-page">
+  <div class="login-card">
+
+    <!-- BRAND -->
+    <div class="brand">
+      <span class="brand-icon">🍗</span>
+      <h1>Pollos Suárez</h1>
+      <p>Sistema de gestión interna</p>
+    </div>
+
+    <!-- FORM -->
+    <div class="form">
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          placeholder="usuario@suarez.pe"
+          [disabled]="cargando()"
+          (keyup.enter)="login()" />
+      </div>
+
+      <div class="field">
+        <label>Contraseña</label>
+        <div class="pass-wrap">
+          <input
+            [type]="mostrarPass() ? 'text' : 'password'"
+            [(ngModel)]="password"
+            placeholder="••••••••"
+            [disabled]="cargando()"
+            (keyup.enter)="login()" />
+          <button class="toggle-pass" type="button" (click)="mostrarPass.set(!mostrarPass())">
+            {{ mostrarPass() ? '🙈' : '👁' }}
+          </button>
+        </div>
+      </div>
+
+      @if (error()) {
+        <div class="error-msg">⚠ {{ error() }}</div>
+      }
+
+      <button class="btn-login" [disabled]="cargando()" (click)="login()">
+        @if (cargando()) {
+          <span class="spinner">⏳</span> Verificando...
+        } @else {
+          Ingresar al sistema
+        }
+      </button>
+    </div>
+
+    <!-- ACCESOS RÁPIDOS -->
+    <div class="quick-section">
+      <p class="quick-title">Acceso rápido (prueba)</p>
+      <div class="quick-grid">
+        @for (a of accesosRapidos; track a.email) {
+          <button class="quick-btn" (click)="fill(a.email)">{{ a.rol }}</button>
+        }
+      </div>
+      <p class="quick-pass">Contraseña: <code>Suarez2024!</code></p>
+    </div>
+
+  </div>
+</div>

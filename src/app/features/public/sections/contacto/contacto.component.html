@@ -1,0 +1,231 @@
+<section class="sec" id="contacto" aria-label="Contacto">
+  <div class="sec-inner">
+
+    <!-- Header -->
+    <div class="contact-header">
+      <div>
+        <span class="stag">Encuéntranos</span>
+        <h2 class="stitle">Visítanos o Escríbenos</h2>
+        <p class="contact-subtitle">Estamos disponibles todos los días para atenderte.</p>
+      </div>
+      <div class="contact-status">
+        <span class="cstatus-dot"></span>
+        <span class="cstatus-text">Abierto ahora · Cierra a las 10pm</span>
+      </div>
+    </div>
+
+    <div class="cgrid">
+
+      <!-- ─── INFO ─── -->
+      <div class="cinfo">
+
+        <!-- Items de contacto -->
+        <div class="ci-list">
+
+          <a href="https://maps.google.com/?q=Av.+La+Molina+1247+Lima"
+             target="_blank" rel="noopener" class="ci ci--link">
+            <div class="ci-icon-wrap">
+              <span class="ci-icon">📍</span>
+            </div>
+            <div class="ci-body">
+              <h4>Dirección</h4>
+              <p>Av. La Molina 1247, Lima</p>
+              <span class="ci-hint">Ver en Google Maps →</span>
+            </div>
+          </a>
+
+          <div class="ci">
+            <div class="ci-icon-wrap">
+              <span class="ci-icon">🕐</span>
+            </div>
+            <div class="ci-body">
+              <h4>Horario</h4>
+              <p>Lun – Dom: 11am – 10pm</p>
+              <div class="horario-pills">
+                <span class="hpill hpill--open">Abierto ahora</span>
+                <span class="hpill">Todos los días</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="tel:+51999000000" class="ci ci--link">
+            <div class="ci-icon-wrap">
+              <span class="ci-icon">📞</span>
+            </div>
+            <div class="ci-body">
+              <h4>Teléfono</h4>
+              <p>+51 999 000 000</p>
+              <span class="ci-hint">Toca para llamar →</span>
+            </div>
+          </a>
+
+          <a href="mailto:pedidos@pollossuarez.pe" class="ci ci--link">
+            <div class="ci-icon-wrap">
+              <span class="ci-icon">📧</span>
+            </div>
+            <div class="ci-body">
+              <h4>Correo</h4>
+              <p>pedidos&#64;pollossuarez.pe</p>
+              <span class="ci-hint">Enviar correo →</span>
+            </div>
+          </a>
+
+          <a href="https://wa.me/51999000000"
+             target="_blank" rel="noopener" class="ci ci--link ci--whatsapp">
+            <div class="ci-icon-wrap ci-icon-wrap--wa">
+              <span class="ci-icon">💬</span>
+            </div>
+            <div class="ci-body">
+              <h4>WhatsApp</h4>
+              <p>Respuesta en minutos</p>
+              <span class="ci-hint wa-hint">Escribir por WhatsApp →</span>
+            </div>
+            <span class="ci-live">
+              <span class="ci-live-dot"></span>
+              En línea
+            </span>
+          </a>
+
+        </div>
+
+        <!-- Mapa placeholder -->
+        <div class="map-box">
+          <div class="map-visual" aria-label="Mapa La Molina Lima">
+            <div class="map-grid" aria-hidden="true">
+              <div class="mg-line mgl-h" style="top:30%"></div>
+              <div class="mg-line mgl-h" style="top:55%"></div>
+              <div class="mg-line mgl-h" style="top:75%"></div>
+              <div class="mg-line mgl-v" style="left:25%"></div>
+              <div class="mg-line mgl-v" style="left:50%"></div>
+              <div class="mg-line mgl-v" style="left:75%"></div>
+            </div>
+            <div class="map-marker">
+              <span class="mm-pin">📍</span>
+              <div class="mm-pulse"></div>
+              <div class="mm-label">Pollos Suárez</div>
+            </div>
+          </div>
+          <div class="map-footer">
+            <div class="map-address">
+              <strong>Av. La Molina 1247</strong>
+              <span>La Molina, Lima · Perú</span>
+            </div>
+            <a href="https://maps.google.com/?q=La+Molina+Lima"
+               target="_blank" rel="noopener" class="map-btn">
+              Abrir en Maps →
+            </a>
+          </div>
+        </div>
+
+        <!-- Redes sociales -->
+        <div class="contact-redes">
+          <span class="redes-label">Síguenos</span>
+          <div class="redes-links">
+            <a href="#" class="red-item" aria-label="Instagram">
+              <span>📸</span>
+              <span>Instagram</span>
+            </a>
+            <a href="#" class="red-item" aria-label="Facebook">
+              <span>👍</span>
+              <span>Facebook</span>
+            </a>
+            <a href="#" class="red-item" aria-label="TikTok">
+              <span>🎵</span>
+              <span>TikTok</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ─── FORMULARIO ─── -->
+      <div class="cform">
+
+        <div class="cform-header">
+          <h3>Envíanos un mensaje</h3>
+          <p>Te responderemos en menos de 24 horas.</p>
+        </div>
+
+        <div class="crow">
+          <div class="fg">
+            <label for="cNombre">Nombre</label>
+            <input
+              id="cNombre"
+              [(ngModel)]="cNombre"
+              placeholder="Tu nombre completo"
+              autocomplete="name"/>
+          </div>
+          <div class="fg">
+            <label for="cEmail">Correo</label>
+            <input
+              id="cEmail"
+              [(ngModel)]="cEmail"
+              type="email"
+              placeholder="tu&#64;correo.com"
+              autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label for="cTelefono">Teléfono <span class="fg-opt">(opcional)</span></label>
+          <input
+            id="cTelefono"
+            [(ngModel)]="cTelefono"
+            type="tel"
+            placeholder="+51 999 000 000"
+            autocomplete="tel"/>
+        </div>
+
+        <div class="fg">
+          <label for="cAsunto">Asunto</label>
+          <select id="cAsunto" [(ngModel)]="cAsunto">
+            <option value="" disabled selected>Selecciona un asunto…</option>
+            <option>Consulta general</option>
+            <option>Reserva para grupo</option>
+            <option>Pedido especial</option>
+            <option>Reclamo o sugerencia</option>
+            <option>Información de delivery</option>
+            <option>Trabajo con nosotros</option>
+          </select>
+        </div>
+
+        <div class="fg">
+          <label for="cMensaje">Mensaje</label>
+          <textarea
+            id="cMensaje"
+            [(ngModel)]="cMensaje"
+            rows="5"
+            placeholder="¿En qué podemos ayudarte? Cuéntanos con detalle…"></textarea>
+          <span class="fg-chars">{{ cMensaje?.length || 0 }} / 500</span>
+        </div>
+
+        @if (cEnviado()) {
+          <div class="success-msg" role="status" aria-live="polite">
+            <span class="success-icon">✓</span>
+            <div>
+              <strong>¡Mensaje enviado!</strong>
+              <p>Te responderemos a {{ cEmail }} en menos de 24 horas.</p>
+            </div>
+          </div>
+        } @else {
+          <button
+            class="csend"
+            (click)="enviarMensaje()"
+            [disabled]="enviando()"
+            [class.loading]="enviando()">
+            <span class="csend-icon" aria-hidden="true">{{ enviando() ? '⏳' : '✉️' }}</span>
+            {{ enviando() ? 'Enviando...' : 'Enviar mensaje' }}
+          </button>
+        }
+
+        <div class="form-note">
+          <span>🔒</span>
+          Tu información es privada y nunca será compartida.
+          También puedes llamarnos al <a href="tel:+51999000000"><strong>+51 999 000 000</strong></a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>

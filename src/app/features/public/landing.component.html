@@ -1,0 +1,118 @@
+<div class="landing">
+  <!-- NAV -->
+  <nav [class.scrolled]="scrolled()">
+    <div class="nav-logo">
+      <img src="logo.png" alt="Pollos Suárez" class="logo-img" />
+    </div>
+    <ul class="nav-links">
+      <li><a [routerLink]="['/']">Inicio</a></li>
+      <li><a [routerLink]="['/menu']">Menú</a></li>
+      <li><a [routerLink]="['/promociones']">Promociones</a></li>
+      <li><a [routerLink]="['/nosotros']">Nosotros</a></li>
+      <li><a [routerLink]="['/contacto']">Contacto</a></li>
+      <li><a [routerLink]="['/app']">App</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a [routerLink]="['/menu']" class="btn-order">Pedir ahora</a>
+      <button class="btn-login-nav" (click)="loginOpen.set(true)">Acceso interno</button>
+    </div>
+    <button class="hamburger" (click)="mobileMenu.set(!mobileMenu())">☰</button>
+  </nav>
+
+  @if (mobileMenu()) {
+  <div class="mobile-menu">
+    <a [routerLink]="['/']" (click)="mobileMenu.set(false)">Inicio</a>
+    <a [routerLink]="['/menu']" (click)="mobileMenu.set(false)">Menú</a>
+    <a [routerLink]="['/promociones']" (click)="mobileMenu.set(false)">Promociones</a>
+    <a [routerLink]="['/nosotros']" (click)="mobileMenu.set(false)">Nosotros</a>
+    <a [routerLink]="['/contacto']" (click)="mobileMenu.set(false)">Contacto</a>
+    <a [routerLink]="['/app']" (click)="mobileMenu.set(false)">App</a>
+    <button (click)="loginOpen.set(true); mobileMenu.set(false)">Acceso interno</button>
+  </div>
+  }
+
+  <!-- HERO (solo en la página principal) -->
+  <router-outlet />
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-inner">
+      <div class="fgrid">
+        <div class="fbrand">
+          <div class="flogo">
+            <img src="logo.png" alt="Pollos Suárez" class="logo-img" />
+          </div>
+          <p>El auténtico sabor a brasa de Lima desde 2014.</p>
+          <div class="fsocial">
+            <a href="#" class="fsoc">📘</a>
+            <a href="#" class="fsoc">📷</a>
+            <a href="https://wa.me/51999000000" class="fsoc">💬</a>
+          </div>
+        </div>
+        <div class="fcol">
+          <h4>Menú</h4>
+          <ul>
+            <li><a [routerLink]="['/menu']">Pollos</a></li>
+            <li><a [routerLink]="['/menu']">Combos</a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a [routerLink]="['/nosotros']">Nuestra historia</a></li>
+            <li><a [routerLink]="['/promociones']">Promociones</a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h4>Contacto</h4>
+          <ul>
+            <li><a [routerLink]="['/contacto']">Formulario</a></li>
+            <li><a href="https://wa.me/51999000000" target="_blank">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="fbot">
+        <span>© 2024 Pollos a la Brasa Suárez. Lima, Perú.</span>
+        <button class="flogin-btn" (click)="loginOpen.set(true)">Acceso interno →</button>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/51999000000" class="wa-btn" target="_blank">💬</a>
+
+  <!-- LOGIN MODAL -->
+  @if (loginOpen()) {
+  <div class="lovl" (click)="loginOpen.set(false)">
+    <div class="lmodal" (click)="$event.stopPropagation()">
+      <button class="lclose" (click)="loginOpen.set(false)">✕</button>
+      <div class="lbrand">
+        <span class="lic">🍗</span>
+        <h2>Pollos <span>Suárez</span></h2>
+        <p>Acceso al sistema interno</p>
+      </div>
+      @if (loginErr()) {
+      <div class="lerr">{{ loginErr() }}</div>
+      }
+      <div class="lf">
+        <label>Correo</label>
+        <input type="email" [(ngModel)]="loginEmail" placeholder="usuario@suarez.pe" />
+      </div>
+      <div class="lf">
+        <label>Contraseña</label>
+        <input type="password" [(ngModel)]="loginPass" (keyup.enter)="doLogin()" />
+      </div>
+      <button class="lsubmit" [disabled]="loginLoading()" (click)="doLogin()">
+        {{ loginLoading() ? 'Verificando...' : 'Ingresar al sistema' }}
+      </button>
+      <div class="lquick">
+        <p>Acceso rápido de prueba</p>
+        <div class="lqbtns">
+          <button class="lqb" (click)="quickFill('admin@suarez.pe')">👑 Admin</button>
+          <button class="lqb" (click)="quickFill('cajero@suarez.pe')">💰 Cajero</button>
+          <button class="lqb" (click)="quickFill('empleado@suarez.pe')">📋 Empleado</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

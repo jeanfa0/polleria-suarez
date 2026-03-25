@@ -1,0 +1,26 @@
+================================================================
+POLLOS SUAREZ — APP ANGULAR + FIREBASE + LANDING PAGE
+================================================================
+
+ARCHIVOS INCLUIDOS:
+  src/landing.html         → Landing page (doble clic para abrir)
+  src/app/                 → Aplicacion Angular con 3 roles
+  FIREBASE_SETUP.txt       → Instrucciones Firebase paso a paso
+
+PARA CORRER LA APP:
+  1. npm install
+  2. Editar: src/environments/environment.ts (credenciales Firebase)
+  3. npm start
+  4. Abrir: http://localhost:4200
+
+USUARIOS DE PRUEBA (crear en Firebase Auth primero):
+  admin@suarez.pe     → password: Suarez2024!  → Dashboard Admin
+  cajero@suarez.pe    → password: Suarez2024!  → Dashboard Cajero
+  empleado@suarez.pe  → password: Suarez2024!  → Toma de pedidos
+
+LANDING PAGE:
+  Abrir directamente src/landing.html en el navegador.
+  No necesita npm ni Angular.
+
+VER FIREBASE_SETUP.txt para instrucciones completas de Firebase.
+================================================================

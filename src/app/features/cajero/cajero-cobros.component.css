@@ -1,0 +1,78 @@
+/* ─── BASE ─────────────────────────────────────────────────── */
+.page { max-width: 520px; margin: 0 auto; min-height: 100vh; background: #f8f8f8; }
+
+/* ─── TOPBAR ────────────────────────────────────────────────── */
+.topbar { background: #0f4c2a; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 20; }
+.topbar-title { color: #fff; font-size: 16px; font-weight: 700; }
+.topbar-sub { color: #86efac; font-size: 11px; margin-top: 2px; }
+.logout-btn { background: rgba(255,255,255,.15); border: none; color: #fff; padding: 6px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; }
+
+/* ─── KPIs ──────────────────────────────────────────────────── */
+.kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: #e8e8e8; }
+.kpi { background: #fff; padding: 14px 16px; }
+.kpi-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.kpi-val { font-size: 24px; font-weight: 800; color: #0f4c2a; }
+
+/* ─── TABS ──────────────────────────────────────────────────── */
+.tabs { display: flex; background: #fff; border-bottom: 1px solid #e8e8e8; }
+.tab { flex: 1; padding: 12px 8px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #888; cursor: pointer; border-bottom: 2px solid transparent; }
+.tab.active { color: #0f4c2a; border-bottom-color: #0f4c2a; }
+
+/* ─── SECTION LABEL ─────────────────────────────────────────── */
+.section-label { padding: 14px 16px 6px; font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: .8px; }
+
+/* ─── PEDIDO CARD ───────────────────────────────────────────── */
+.pedido-card { background: #fff; margin: 0 12px 10px; border: 1.5px solid #e0e0e0; border-radius: 14px; padding: 14px; }
+.pedido-card.app-pedido { border-color: #93c5fd; background: #f0f9ff; }
+.pedido-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.num { font-size: 14px; font-weight: 800; color: #0f4c2a; }
+.tipo { flex: 1; font-size: 12px; color: #555; }
+.hora { font-size: 11px; color: #aaa; }
+.app-tag { background: #dbeafe; color: #1d4ed8; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 10px; margin-left: 4px; }
+.estado-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.cliente-name { font-size: 11px; color: #888; }
+.estado { font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 700; }
+.est-pendiente  { background: #fef9c3; color: #a16207; }
+.est-en_cocina  { background: #dbeafe; color: #1d4ed8; }
+.est-listo      { background: #dcfce7; color: #16a34a; }
+.pedido-items { font-size: 12px; color: #888; margin-bottom: 10px; line-height: 1.6; }
+.pedido-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.total { font-size: 20px; font-weight: 800; color: #1a0a00; }
+.btn-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn-listo { padding: 7px 12px; background: #dbeafe; color: #1d4ed8; border: none; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn-cobrar { padding: 9px 18px; background: #0f4c2a; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.btn-cancelar { padding: 7px 10px; background: #fee2e2; color: #991b1b; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+
+/* ─── HISTORIAL ─────────────────────────────────────────────── */
+.historial-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; background: #fff; }
+.item-info { flex: 1; }
+.item-nombre { font-size: 13px; font-weight: 600; color: #222; }
+.item-sub { font-size: 11px; color: #888; margin-top: 2px; }
+.hist-total { font-size: 16px; font-weight: 700; color: #0f4c2a; }
+
+/* ─── EMPTY ─────────────────────────────────────────────────── */
+.empty { text-align: center; padding: 48px 20px; color: #888; }
+.empty-icon { font-size: 40px; margin-bottom: 8px; }
+.empty p { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.empty small { font-size: 12px; color: #bbb; }
+
+/* ─── MODAL ─────────────────────────────────────────────────── */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: flex-end; z-index: 100; }
+.modal { background: #fff; border-radius: 20px 20px 0 0; padding: 24px 20px; width: 100%; max-height: 85vh; overflow-y: auto; }
+.modal h2 { font-size: 17px; font-weight: 700; margin-bottom: 14px; }
+.modal-items { display: flex; flex-direction: column; gap: 7px; margin-bottom: 10px; }
+.m-row { display: flex; justify-content: space-between; font-size: 13px; color: #555; }
+.m-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; padding: 12px 0; border-top: 1px solid #f0f0f0; margin-bottom: 14px; }
+.delivery-info { background: #f0f9ff; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; font-size: 12px; color: #555; display: flex; flex-direction: column; gap: 4px; }
+.m-label { font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+.metodos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; }
+.metodo-btn { padding: 13px 8px; border: 1.5px solid #e0e0e0; border-radius: 12px; background: #fff; font-size: 14px; cursor: pointer; transition: all .15s; }
+.metodo-btn.active { border-color: #0f4c2a; background: #f0fdf4; color: #0f4c2a; font-weight: 700; }
+.modal-actions { display: flex; gap: 10px; }
+.btn-cancel { flex: 1; padding: 14px; border: 1.5px solid #e0e0e0; border-radius: 12px; background: #fff; font-size: 14px; cursor: pointer; }
+.btn-confirm-pay { flex: 2; padding: 14px; background: #0f4c2a; color: #fff; border: none; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.btn-confirm-pay:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ─── TOAST ─────────────────────────────────────────────────── */
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #16a34a; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; z-index: 999; box-shadow: 0 4px 20px rgba(0,0,0,.2); animation: slideUp .3s ease; white-space: nowrap; }
+@keyframes slideUp { from{bottom:0;opacity:0} to{bottom:24px;opacity:1} }

@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Outfit:wght@400;500;600&display=swap');
+
+/* ─── BASE ─── */
+.sec { padding: 100px 0; background: #0A0A0A; }
+.sec-inner { max-width: 1200px; margin: 0 auto; padding: 0 60px; }
+.stag { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #D4AF37; display: block; margin-bottom: 12px; }
+.stitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3.5vw, 48px); font-weight: 700; line-height: 1.15; margin-bottom: 16px; color: #FAFAF8; }
+.about-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+
+/* ─── VISUAL ─── */
+.about-visual { position: relative; display: flex; flex-direction: column; gap: 12px; }
+.about-bignum { font-family: 'Cormorant Garamond', serif; font-size: 180px; font-weight: 900; color: rgba(212,175,55,.04); position: absolute; top: -30px; left: -10px; line-height: 1; user-select: none; pointer-events: none; }
+
+/* Card principal */
+.about-card { background: #1A1A1A; border: 1px solid rgba(212,175,55,.15); border-radius: 4px; padding: 32px; position: relative; z-index: 2; overflow: hidden; }
+.about-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(212,175,55,.05) 0%, transparent 60%); pointer-events: none; }
+.ac-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.ac-icon { font-size: 52px; line-height: 1; display: block; }
+.ac-fire { display: flex; gap: 2px; align-items: flex-end; }
+.acf { font-size: 20px; animation: flicker 1.5s ease-in-out infinite; }
+.acf.f1 { animation-delay: 0s; font-size: 24px; }
+.acf.f2 { animation-delay: .4s; }
+@keyframes flicker { 0%,100%{transform:translateY(0) scale(1);opacity:.6} 50%{transform:translateY(-5px) scale(1.1);opacity:1} }
+.about-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: #D4AF37; margin-bottom: 10px; }
+.about-card p { font-family: 'Outfit', sans-serif; font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.8; margin-bottom: 16px; }
+
+/* Ingredientes chips */
+.ac-ingredients { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 0; }
+.acing { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 500; color: rgba(255,255,255,.5); background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); padding: 4px 10px; border-radius: 20px; }
+
+/* Badge años */
+.ac-badge { position: absolute; bottom: -18px; right: -18px; width: 80px; height: 80px; background: #D4AF37; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 0 24px rgba(212,175,55,.3); }
+.ac-badge strong { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 900; color: #000; line-height: 1; }
+.ac-badge small { font-family: 'Outfit', sans-serif; font-size: 9px; font-weight: 700; color: #000; text-transform: uppercase; letter-spacing: .5px; }
+
+/* Stats */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 8px; }
+.stat-box { background: #1A1A1A; padding: 18px 12px; text-align: center; border: 1px solid rgba(212,175,55,.08); transition: background .2s, border-color .2s; }
+.stat-box:hover { background: #222; border-color: rgba(212,175,55,.2); }
+.sval { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: #D4AF37; }
+.slab { font-family: 'Outfit', sans-serif; font-size: 10px; color: rgba(255,255,255,.3); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+/* Card award */
+.about-award { display: flex; align-items: center; gap: 14px; background: rgba(212,175,55,.05); border: 1px solid rgba(212,175,55,.12); border-radius: 4px; padding: 16px 20px; }
+.award-icon { font-size: 28px; flex-shrink: 0; }
+.award-text { display: flex; flex-direction: column; gap: 2px; }
+.award-title { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; color: #FAFAF8; }
+.award-sub { font-family: 'Outfit', sans-serif; font-size: 11px; color: rgba(255,255,255,.35); }
+
+/* ─── TEXTO ─── */
+.about-text p { font-family: 'Outfit', sans-serif; font-size: 14px; color: rgba(255,255,255,.45); line-height: 1.9; margin-bottom: 12px; }
+.about-lead { font-size: 15px !important; color: rgba(255,255,255,.6) !important; }
+.about-lead strong { color: rgba(255,255,255,.85); font-weight: 600; }
+
+/* Valores */
+.avals { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 24px 0; }
+.av { display: flex; align-items: flex-start; gap: 12px; background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.05); border-radius: 4px; padding: 14px; transition: border-color .2s, background .2s; }
+.av:hover { border-color: rgba(212,175,55,.15); background: rgba(212,175,55,.03); }
+.av-icon { font-size: 22px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+.av div { display: flex; flex-direction: column; gap: 2px; }
+.av strong { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.75); }
+.av span { font-family: 'Outfit', sans-serif; font-size: 11px; color: rgba(255,255,255,.3); }
+
+/* Separador */
+.about-sep { display: flex; align-items: center; gap: 14px; margin: 28px 0 24px; }
+.sep-line { flex: 1; height: 1px; background: rgba(255,255,255,.07); }
+.sep-label { font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 600; color: rgba(255,255,255,.2); letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
+
+/* ─── TIMELINE ─── */
+.tline { display: flex; flex-direction: column; gap: 0; }
+.ti { display: flex; gap: 16px; padding-bottom: 20px; position: relative; }
+.ti:not(:last-child)::before { content: ''; position: absolute; left: 17px; top: 36px; bottom: 0; width: 1px; background: rgba(212,175,55,.1); }
+.ti--active::before { background: rgba(212,175,55,.25) !important; }
+
+.tdot { width: 36px; height: 36px; border: 1px solid rgba(212,175,55,.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #1A1A1A; transition: border-color .2s, background .2s; }
+.ti--active .tdot { border-color: #D4AF37; background: rgba(212,175,55,.1); box-shadow: 0 0 12px rgba(212,175,55,.2); }
+.tdot-year { font-family: 'Cormorant Garamond', serif; font-size: 11px; font-weight: 700; color: #D4AF37; }
+
+.ti-content { flex: 1; padding-top: 6px; }
+.ti-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.ti-header h4 { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; color: #FAFAF8; }
+.ti-tag { font-family: 'Outfit', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.3); background: rgba(255,255,255,.05); padding: 2px 7px; border-radius: 2px; }
+.ti-tag--active { color: #D4AF37; background: rgba(212,175,55,.1); border: 1px solid rgba(212,175,55,.2); }
+.ti-content p { font-family: 'Outfit', sans-serif; font-size: 12px; color: rgba(255,255,255,.35); line-height: 1.65; margin: 0; }
+
+/* ─── CTA ─── */
+.about-cta { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+.btn-about-primary { display: inline-flex; align-items: center; gap: 10px; background: #D4AF37; color: #000; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 13px 24px; border-radius: 2px; text-decoration: none; transition: background .2s; }
+.btn-about-primary:hover { background: #F0D060; }
+.btn-about-secondary { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: rgba(255,255,255,.55); font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 13px 20px; border-radius: 2px; border: 1px solid rgba(255,255,255,.1); text-decoration: none; transition: all .2s; }
+.btn-about-secondary:hover { border-color: rgba(212,175,55,.3); color: #D4AF37; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+
+/* ─── TABLET GRANDE (max 1100px) ─── */
+@media (max-width: 1100px) {
+  .sec-inner { padding: 0 40px; }
+  .about-wrap { gap: 56px; }
+  .about-bignum { font-size: 140px; }
+}
+
+/* ─── TABLET (max 900px) ─── */
+@media (max-width: 900px) {
+  .sec { padding: 72px 0; }
+  .sec-inner { padding: 0 28px; }
+  .about-wrap { grid-template-columns: 1fr; gap: 48px; }
+  .about-bignum { font-size: 120px; top: -20px; }
+  .about-visual { max-width: 560px; }
+  .stitle { font-size: clamp(26px, 5vw, 42px); }
+}
+
+/* ─── MÓVIL (max 600px) ─── */
+@media (max-width: 600px) {
+  .sec { padding: 56px 0; }
+  .sec-inner { padding: 0 16px; }
+
+  .about-bignum { font-size: 90px; }
+  .about-card { padding: 24px 20px; }
+  .ac-icon { font-size: 40px; }
+  .about-card h3 { font-size: 19px; }
+  .ac-badge { width: 66px; height: 66px; bottom: -14px; right: -14px; }
+  .ac-badge strong { font-size: 21px; }
+
+  .stats-row { grid-template-columns: repeat(3, 1fr); }
+  .sval { font-size: 20px; }
+  .slab { font-size: 9px; letter-spacing: .5px; }
+
+  .about-award { padding: 12px 14px; gap: 10px; }
+  .award-icon { font-size: 22px; }
+  .award-title { font-size: 12px; }
+  .award-sub { font-size: 10px; }
+
+  .avals { grid-template-columns: 1fr; gap: 8px; }
+  .av { padding: 12px; }
+  .av-icon { font-size: 18px; }
+  .av strong { font-size: 12px; }
+
+  .about-sep { margin: 20px 0 18px; }
+
+  .tdot { width: 32px; height: 32px; }
+  .tdot-year { font-size: 10px; }
+  .ti-header h4 { font-size: 12px; }
+  .ti:not(:last-child)::before { left: 15px; }
+
+  .about-cta { flex-direction: column; gap: 10px; }
+  .btn-about-primary,
+  .btn-about-secondary { width: 100%; justify-content: center; padding: 13px 20px; }
+}
+
+/* ─── MÓVIL PEQUEÑO (max 400px) ─── */
+@media (max-width: 400px) {
+  .sec-inner { padding: 0 12px; }
+  .about-card { padding: 20px 16px; }
+  .stats-row { gap: 1px; }
+  .stat-box { padding: 14px 8px; }
+  .sval { font-size: 18px; }
+  .ac-ingredients { gap: 4px; }
+  .acing { font-size: 10px; padding: 3px 8px; }
+}

@@ -1,0 +1,162 @@
+<div class="page">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title">💰 Cajero</div>
+      <div class="topbar-sub">{{ auth.currentUser?.nombre }}</div>
+    </div>
+    <button class="logout-btn" (click)="auth.logout()">Salir</button>
+  </header>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">Cobrado hoy</div>
+      @if (cargandoKpis()) {
+        <div class="kpi-val">—</div>
+      } @else {
+        <div class="kpi-val">S/ {{ totalCobrado() | number:'1.0-0' }}</div>
+      }
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Transacciones</div>
+      @if (cargandoKpis()) {
+        <div class="kpi-val">—</div>
+      } @else {
+        <div class="kpi-val">{{ transacciones() }}</div>
+      }
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab" [class.active]="vistaActiva()==='cola'"      (click)="vistaActiva.set('cola')">Cola de cobro</button>
+    <button class="tab" [class.active]="vistaActiva()==='historial'" (click)="vistaActiva.set('historial')">Historial hoy</button>
+  </div>
+
+  <!-- ═══ VISTA: COLA DE COBRO ═══ -->
+  @if (vistaActiva() === 'cola') {
+    <div class="section-label">Pedidos por atender</div>
+
+    @for (p of pedidos$ | async; track p.id) {
+      <div class="pedido-card" [class.app-pedido]="p['fuente']==='app_movil'">
+        <div class="pedido-top">
+          <span class="num">#{{ p.numero }}</span>
+          <span class="tipo">
+            {{ p.tipo === 'local' ? '🪑 Mesa ' + p.mesa : p.tipo === 'delivery' ? '🛵 Delivery' : '📦 Llevar' }}
+            @if (p['fuente'] === 'app_movil') {
+              <span class="app-tag">📱 App</span>
+            }
+          </span>
+          <span class="hora">
+            {{ p.creadoEn?.toDate ? (p.creadoEn.toDate() | date:'HH:mm') : '' }}
+          </span>
+        </div>
+
+        <!-- Estado actual -->
+        <div class="estado-row">
+          <span class="estado" [class]="'est-'+p.estado">
+            {{ p.estado === 'pendiente' ? 'Pendiente' : p.estado === 'en_cocina' ? '🔥 En cocina' : p.estado === 'listo' ? '✓ Listo' : p.estado }}
+          </span>
+          @if (p['clienteNombre']) {
+            <span class="cliente-name">👤 {{ p['clienteNombre'] }}</span>
+          }
+        </div>
+
+        <div class="pedido-items">{{ resumenItems(p.items) }}</div>
+
+        <div class="pedido-footer">
+          <span class="total">S/ {{ p.total }}</span>
+          <div class="btn-group">
+            @if (p.estado === 'pendiente' || p.estado === 'en_cocina') {
+              <button class="btn-listo" (click)="marcarListo(p.id!)">Marcar listo</button>
+            }
+            <button class="btn-cobrar" (click)="abrirModal(p)">Cobrar 💳</button>
+            <button class="btn-cancelar" (click)="cancelar(p.id!)">✕</button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty">
+        <div class="empty-icon">✅</div>
+        <p>Sin pedidos pendientes</p>
+        <small>Los nuevos pedidos aparecen aquí en tiempo real</small>
+      </div>
+    }
+  }
+
+  <!-- ═══ VISTA: HISTORIAL ═══ -->
+  @if (vistaActiva() === 'historial') {
+    <div class="section-label">Cobros de hoy</div>
+    @for (p of historial$ | async; track p['id']) {
+      <div class="historial-row">
+        <span class="num">#{{ p['numero'] }}</span>
+        <div class="item-info">
+          <div class="item-nombre">
+            {{ p['tipo'] === 'local' ? 'Mesa ' + p['mesa'] : p['tipo'] }}
+            @if (p['fuente'] === 'app_movil') { <span class="app-tag">📱</span> }
+          </div>
+          <div class="item-sub">{{ p['metodoPago'] || 'efectivo' }}</div>
+        </div>
+        <span class="hist-total">S/ {{ p['total'] }}</span>
+      </div>
+    } @empty {
+      <div class="empty"><p>Sin cobros registrados hoy</p></div>
+    }
+  }
+
+  <!-- MODAL DE COBRO -->
+  @if (pedidoSel()) {
+    <div class="overlay" (click)="cerrar()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h2>Cobrar pedido #{{ pedidoSel()!.numero }}</h2>
+
+        <!-- Detalle items -->
+        <div class="modal-items">
+          @for (i of pedidoSel()!.items; track i.productoId) {
+            <div class="m-row">
+              <span>{{ i.cantidad }}× {{ i.nombre }}</span>
+              <span>S/ {{ i.subtotal }}</span>
+            </div>
+          }
+        </div>
+        <div class="m-total">
+          <span>Total a cobrar</span>
+          <span>S/ {{ pedidoSel()!.total }}</span>
+        </div>
+
+        <!-- Info delivery si aplica -->
+        @if (pedidoSel()!.tipo === 'delivery') {
+          <div class="delivery-info">
+            <div>👤 {{ pedidoSel()!['clienteNombre'] || 'Cliente' }}</div>
+            <div>📍 {{ pedidoSel()!['clienteDireccion'] || 'Sin dirección' }}</div>
+          </div>
+        }
+
+        <!-- Método de pago -->
+        <p class="m-label">Método de pago</p>
+        <div class="metodos">
+          @for (m of metodos; track m.val) {
+            <button class="metodo-btn" [class.active]="metodo()===m.val" (click)="metodo.set(m.val)">
+              {{ m.icon }} {{ m.label }}
+            </button>
+          }
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" (click)="cerrar()">Cancelar</button>
+          <button class="btn-confirm-pay" [disabled]="!metodo() || paying()" (click)="pagar()">
+            {{ paying() ? 'Procesando...' : 'Confirmar cobro — S/ ' + pedidoSel()!.total }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- TOAST -->
+  @if (toastMsg()) {
+    <div class="toast">{{ toastMsg() }}</div>
+  }
+
+</div>

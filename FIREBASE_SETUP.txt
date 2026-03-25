@@ -1,0 +1,95 @@
+================================================================
+CONFIGURACION DE FIREBASE — PASO A PASO
+================================================================
+
+PASO 1: Crear proyecto Firebase
+  - Ir a https://console.firebase.google.com
+  - Clic en "Agregar proyecto"
+  - Nombre: polleria-suarez
+  - Aceptar terminos y crear
+
+PASO 2: Activar Authentication
+  - En el menu izquierdo: Build > Authentication
+  - Clic "Comenzar"
+  - En la pestaña "Sign-in method": activar "Correo/contrasena"
+  - En la pestaña "Users": agregar los 3 usuarios:
+      admin@suarez.pe     | Suarez2024!
+      cajero@suarez.pe    | Suarez2024!
+      empleado@suarez.pe  | Suarez2024!
+  - Anotar el UID de cada usuario (lo necesitaras en el paso 4)
+
+PASO 3: Activar Firestore
+  - En el menu izquierdo: Build > Firestore Database
+  - Clic "Crear base de datos"
+  - Seleccionar "Modo de produccion"
+  - Elegir region: nam5 (us-central)
+
+PASO 4: Crear coleccion "usuarios"
+  - En Firestore, clic "Iniciar coleccion"
+  - ID de coleccion: usuarios
+  - Crear 3 documentos (el ID de cada doc = UID del usuario de Auth):
+
+  Documento 1 (ID = UID del admin):
+    nombre: "Carlos Suarez"
+    email: "admin@suarez.pe"
+    rol: "admin"
+    activo: true
+    creadoEn: (timestamp actual)
+
+  Documento 2 (ID = UID del cajero):
+    nombre: "Maria Lopez"
+    email: "cajero@suarez.pe"
+    rol: "cajero"
+    activo: true
+    creadoEn: (timestamp actual)
+
+  Documento 3 (ID = UID del empleado):
+    nombre: "Pedro Ramos"
+    email: "empleado@suarez.pe"
+    rol: "empleado"
+    activo: true
+    creadoEn: (timestamp actual)
+
+PASO 5: Crear coleccion "contadores"
+  - Nueva coleccion: contadores
+  - Documento con ID: pedidos
+  - Campo: ultimo | tipo: number | valor: 0
+
+PASO 6: Aplicar reglas de seguridad
+  - En Firestore: pestaña "Reglas"
+  - Reemplazar con:
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function getRole() {
+      return get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol;
+    }
+    match /usuarios/{uid} {
+      allow read: if request.auth != null && (request.auth.uid == uid || getRole() == 'admin');
+      allow write: if request.auth != null && getRole() == 'admin';
+    }
+    match /pedidos/{id} {
+      allow read, write: if request.auth != null;
+    }
+    match /productos/{id} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && getRole() == 'admin';
+    }
+    match /contadores/{id} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+
+PASO 7: Copiar credenciales
+  - En Firebase: icono de engranaje > Configuracion del proyecto
+  - Bajar hasta "Tus apps" > "Aplicacion web" > clic en "</>""
+  - Registrar app con cualquier nombre
+  - Copiar el objeto firebaseConfig
+  - Pegar en: src/environments/environment.ts
+
+PASO 8: Correr la app
+  npm install
+  npm start
+================================================================

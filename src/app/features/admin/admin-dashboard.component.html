@@ -1,0 +1,235 @@
+<div class="page">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title">👑 Panel Admin</div>
+      <div class="topbar-sub">{{ hoy | date:'EEEE d MMMM, y' }}</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-refresh" (click)="cargarKpis()" title="Actualizar KPIs">↻</button>
+      <button class="logout-btn" (click)="auth.logout()">Salir</button>
+    </div>
+  </header>
+
+  <!-- TABS DE NAVEGACIÓN -->
+  <nav class="tabs">
+    <button class="tab" [class.active]="vistaActiva()==='dashboard'"  (click)="vistaActiva.set('dashboard')">📊 Dashboard</button>
+    <button class="tab" [class.active]="vistaActiva()==='pedidos'"    (click)="vistaActiva.set('pedidos')">📋 Pedidos</button>
+    <button class="tab" [class.active]="vistaActiva()==='productos'"  (click)="vistaActiva.set('productos')">🍗 Productos</button>
+    <button class="tab" [class.active]="vistaActiva()==='usuarios'"   (click)="vistaActiva.set('usuarios')">👥 Usuarios</button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       VISTA: DASHBOARD
+  ═══════════════════════════════════════════════ -->
+  @if (vistaActiva() === 'dashboard') {
+
+    <!-- KPIs -->
+    @if (cargandoKpis()) {
+      <div class="loading-kpis">Cargando datos de hoy...</div>
+    } @else {
+      <div class="kpis">
+        <div class="kpi kpi-ventas">
+          <div class="kpi-icon">💰</div>
+          <div class="kpi-label">Ventas hoy</div>
+          <div class="kpi-val">S/ {{ totalVentas() | number:'1.0-0' }}</div>
+        </div>
+        <div class="kpi kpi-pedidos">
+          <div class="kpi-icon">📋</div>
+          <div class="kpi-label">Pedidos</div>
+          <div class="kpi-val">{{ totalPedidos() }}</div>
+        </div>
+        <div class="kpi kpi-ticket">
+          <div class="kpi-icon">🎯</div>
+          <div class="kpi-label">Ticket prom.</div>
+          <div class="kpi-val">S/ {{ ticketPromedio() }}</div>
+        </div>
+        <div class="kpi kpi-delivery">
+          <div class="kpi-icon">🛵</div>
+          <div class="kpi-label">% Delivery</div>
+          <div class="kpi-val">{{ pctDelivery() }}%</div>
+        </div>
+      </div>
+    }
+
+    <!-- PEDIDOS EN TIEMPO REAL -->
+    <div class="section">
+      <div class="section-head">
+        <span class="section-title">Pedidos activos</span>
+        <span class="live-badge">● EN VIVO</span>
+      </div>
+      @for (p of pedidosActivos$ | async; track p.id) {
+        <div class="pedido-row" (click)="abrirEditarEstado(p)">
+          <span class="pedido-num">#{{ p.numero }}</span>
+          <div class="pedido-info">
+            <div class="pedido-desc">
+              {{ p.tipo === 'local' ? 'Mesa ' + p.mesa : p.tipo === 'delivery' ? '🛵 Delivery' : '📦 Llevar' }}
+              @if (p['fuente'] === 'app_movil') {
+                <span class="app-tag">📱 App</span>
+              }
+            </div>
+            <div class="pedido-items">{{ p.items.length }} productos · S/ {{ p.total }}</div>
+          </div>
+          <div class="pedido-right">
+            <span class="estado" [class]="estadoClass(p.estado)">{{ estadoLabel(p.estado) }}</span>
+            <span class="edit-hint">✎</span>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty">Sin pedidos activos ahora mismo</div>
+      }
+    </div>
+
+    <!-- VENTAS POR PRODUCTO -->
+    <div class="section">
+      <div class="section-head">
+        <span class="section-title">Top ventas — hoy</span>
+        <button class="btn-sm" (click)="cargarKpis()">↻ Actualizar</button>
+      </div>
+      @if (ventasProducto().length === 0) {
+        <div class="empty">Sin datos de ventas aún</div>
+      } @else {
+        @for (p of ventasProducto(); track p.nombre) {
+          <div class="bar-row">
+            <span class="bar-label">{{ p.nombre }}</span>
+            <div class="bar-track"><div class="bar-fill" [style.width]="p.pct + '%'"></div></div>
+            <span class="bar-val">S/ {{ p.monto }}</span>
+          </div>
+        }
+      }
+    </div>
+  }
+
+  <!-- ═══════════════════════════════════════════════
+       VISTA: PEDIDOS (gestión completa)
+  ═══════════════════════════════════════════════ -->
+  @if (vistaActiva() === 'pedidos') {
+    <div class="section">
+      <div class="section-head">
+        <span class="section-title">Todos los pedidos activos</span>
+        <span class="live-badge">● EN VIVO</span>
+      </div>
+      @for (p of pedidosActivos$ | async; track p.id) {
+        <div class="pedido-card-full">
+          <div class="pcf-head">
+            <span class="pedido-num">#{{ p.numero }}</span>
+            <span class="pcf-tipo">
+              {{ p.tipo === 'local' ? '🪑 Mesa ' + p.mesa : p.tipo === 'delivery' ? '🛵 Delivery' : '📦 Llevar' }}
+              @if (p['fuente'] === 'app_movil') { <span class="app-tag">📱</span> }
+            </span>
+            <span class="estado" [class]="estadoClass(p.estado)">{{ estadoLabel(p.estado) }}</span>
+          </div>
+          <div class="pcf-items">
+            @for (i of p.items; track i.productoId) {
+              <span class="pcf-item">{{ i.cantidad }}× {{ i.nombre }}</span>
+            }
+          </div>
+          <div class="pcf-foot">
+            <span class="pcf-total">S/ {{ p.total }}</span>
+            <button class="btn-cambiar-estado" (click)="abrirEditarEstado(p)">Cambiar estado ✎</button>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty">Sin pedidos activos</div>
+      }
+    </div>
+  }
+
+  <!-- ═══════════════════════════════════════════════
+       VISTA: PRODUCTOS
+  ═══════════════════════════════════════════════ -->
+  @if (vistaActiva() === 'productos') {
+    <div class="section">
+      <div class="section-head">
+        <span class="section-title">Gestión de productos</span>
+      </div>
+      @for (prod of productos$ | async; track prod['id']) {
+        <div class="item-row">
+          <span class="item-emoji">{{ prod['emoji'] || '🍗' }}</span>
+          <div class="item-info">
+            <div class="item-nombre">{{ prod['nombre'] }}</div>
+            <div class="item-sub">S/ {{ prod['precio'] }} · {{ prod['categoria'] }}</div>
+          </div>
+          <div class="item-actions">
+            <span class="disponible-badge" [class.on]="prod['disponible']">
+              {{ prod['disponible'] ? 'Disponible' : 'Sin stock' }}
+            </span>
+            <button class="btn-toggle"
+              [class.desactivar]="prod['disponible']"
+              (click)="toggleProducto(prod['id'], prod['disponible'])">
+              {{ prod['disponible'] ? 'Desactivar' : 'Activar' }}
+            </button>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty">No hay productos. Agrégalos desde Firebase Console → productos/</div>
+      }
+    </div>
+  }
+
+  <!-- ═══════════════════════════════════════════════
+       VISTA: USUARIOS
+  ═══════════════════════════════════════════════ -->
+  @if (vistaActiva() === 'usuarios') {
+    <div class="section">
+      <div class="section-head">
+        <span class="section-title">Gestión de usuarios</span>
+      </div>
+      @for (u of usuarios$ | async; track u['uid']) {
+        <div class="item-row">
+          <div class="user-avatar">{{ u['nombre']?.[0]?.toUpperCase() || '?' }}</div>
+          <div class="item-info">
+            <div class="item-nombre">{{ u['nombre'] }}</div>
+            <div class="item-sub">{{ u['email'] }} · <strong>{{ u['rol'] }}</strong></div>
+          </div>
+          <div class="item-actions">
+            <span class="disponible-badge" [class.on]="u['activo']">
+              {{ u['activo'] ? 'Activo' : 'Inactivo' }}
+            </span>
+            <button class="btn-toggle"
+              [class.desactivar]="u['activo']"
+              (click)="toggleUsuario(u['uid'], u['activo'])">
+              {{ u['activo'] ? 'Desactivar' : 'Activar' }}
+            </button>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty">No hay usuarios registrados</div>
+      }
+    </div>
+  }
+
+  <!-- MODAL: CAMBIAR ESTADO DE PEDIDO -->
+  @if (pedidoEditando()) {
+    <div class="overlay" (click)="pedidoEditando.set(null)">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h2>Pedido #{{ pedidoEditando()!.numero }}</h2>
+        <p class="modal-sub">Selecciona el nuevo estado:</p>
+        <div class="estados-grid">
+          @for (e of estados; track e.val) {
+            <button class="estado-opt"
+              [class.sel]="nuevoEstado() === e.val"
+              (click)="nuevoEstado.set(e.val)">
+              {{ e.label }}
+            </button>
+          }
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" (click)="pedidoEditando.set(null)">Cancelar</button>
+          <button class="btn-confirm"
+            [disabled]="actualizando() || nuevoEstado() === pedidoEditando()!.estado"
+            (click)="guardarEstado()">
+            {{ actualizando() ? 'Guardando...' : 'Guardar cambio' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- TOAST -->
+  @if (toastMsg()) {
+    <div class="toast">{{ toastMsg() }}</div>
+  }
+
+</div>
