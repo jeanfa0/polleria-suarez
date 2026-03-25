@@ -22,8 +22,8 @@
         <!-- Items de contacto -->
         <div class="ci-list">
 
-          <a href="https://maps.google.com/?q=Av.+La+Molina+1247+Lima"
-             target="_blank" rel="noopener" class="ci ci--link">
+          <a href="https://maps.google.com/?q=Av.+La+Molina+1247+Lima" target="_blank" rel="noopener"
+            class="ci ci--link">
             <div class="ci-icon-wrap">
               <span class="ci-icon">📍</span>
             </div>
@@ -70,8 +70,7 @@
             </div>
           </a>
 
-          <a href="https://wa.me/51999000000"
-             target="_blank" rel="noopener" class="ci ci--link ci--whatsapp">
+          <a href="https://wa.me/51999000000" target="_blank" rel="noopener" class="ci ci--link ci--whatsapp">
             <div class="ci-icon-wrap ci-icon-wrap--wa">
               <span class="ci-icon">💬</span>
             </div>
@@ -110,8 +109,7 @@
               <strong>Av. La Molina 1247</strong>
               <span>La Molina, Lima · Perú</span>
             </div>
-            <a href="https://maps.google.com/?q=La+Molina+Lima"
-               target="_blank" rel="noopener" class="map-btn">
+            <a href="https://maps.google.com/?q=La+Molina+Lima" target="_blank" rel="noopener" class="map-btn">
               Abrir en Maps →
             </a>
           </div>
@@ -149,31 +147,17 @@
         <div class="crow">
           <div class="fg">
             <label for="cNombre">Nombre</label>
-            <input
-              id="cNombre"
-              [(ngModel)]="cNombre"
-              placeholder="Tu nombre completo"
-              autocomplete="name"/>
+            <input id="cNombre" [(ngModel)]="cNombre" placeholder="Tu nombre completo" autocomplete="name" />
           </div>
           <div class="fg">
             <label for="cEmail">Correo</label>
-            <input
-              id="cEmail"
-              [(ngModel)]="cEmail"
-              type="email"
-              placeholder="tu&#64;correo.com"
-              autocomplete="email"/>
+            <input id="cEmail" [(ngModel)]="cEmail" type="email" placeholder="tu&#64;correo.com" autocomplete="email" />
           </div>
         </div>
 
         <div class="fg">
           <label for="cTelefono">Teléfono <span class="fg-opt">(opcional)</span></label>
-          <input
-            id="cTelefono"
-            [(ngModel)]="cTelefono"
-            type="tel"
-            placeholder="+51 999 000 000"
-            autocomplete="tel"/>
+          <input id="cTelefono" [(ngModel)]="cTelefono" type="tel" placeholder="+51 999 000 000" autocomplete="tel" />
         </div>
 
         <div class="fg">
@@ -191,31 +175,24 @@
 
         <div class="fg">
           <label for="cMensaje">Mensaje</label>
-          <textarea
-            id="cMensaje"
-            [(ngModel)]="cMensaje"
-            rows="5"
+          <textarea id="cMensaje" [(ngModel)]="cMensaje" rows="5"
             placeholder="¿En qué podemos ayudarte? Cuéntanos con detalle…"></textarea>
-          <span class="fg-chars">{{ cMensaje?.length || 0 }} / 500</span>
+          <span class="fg-chars">{{ cMensaje.length || 0 }} / 500</span>
         </div>
 
         @if (cEnviado()) {
-          <div class="success-msg" role="status" aria-live="polite">
-            <span class="success-icon">✓</span>
-            <div>
-              <strong>¡Mensaje enviado!</strong>
-              <p>Te responderemos a {{ cEmail }} en menos de 24 horas.</p>
-            </div>
+        <div class="success-msg" role="status" aria-live="polite">
+          <span class="success-icon">✓</span>
+          <div>
+            <strong>¡Mensaje enviado!</strong>
+            <p>Te responderemos a {{ cEmail }} en menos de 24 horas.</p>
           </div>
+        </div>
         } @else {
-          <button
-            class="csend"
-            (click)="enviarMensaje()"
-            [disabled]="enviando()"
-            [class.loading]="enviando()">
-            <span class="csend-icon" aria-hidden="true">{{ enviando() ? '⏳' : '✉️' }}</span>
-            {{ enviando() ? 'Enviando...' : 'Enviar mensaje' }}
-          </button>
+        <button class="csend" (click)="enviarMensaje()" [disabled]="enviando()" [class.loading]="enviando()">
+          <span class="csend-icon" aria-hidden="true">{{ enviando() ? '⏳' : '✉️' }}</span>
+          {{ enviando() ? 'Enviando...' : 'Enviar mensaje' }}
+        </button>
         }
 
         <div class="form-note">
